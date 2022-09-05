@@ -54,8 +54,6 @@ CREATE my-hotel-test/src/app/app.component.ts (237 bytes)
     Successfully initialized git.
 ```
 
-**2.** Install and configure the Bootstrap CSS framework. Do steps 2 and 3 of the post *[Adding the Bootstrap CSS framework to an Angular application](https://github.com/rodrigokamada/angular-bootstrap)*.
-
 **2.** Let's create a custom validator for the email field. Create the `EmailValidatorDirective` directive.
 
 ```powershell

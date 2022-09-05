@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 import { emailValidator } from './email-validator.directive';
+import { DeletePost, GetPosts, PostNewPost, SelectPost } from './store/app.actions';
+import { AppState, Post } from './store/app.state';
 
-interface IUser {
-  name: string;
-  nickname: string;
-  email: string;
-  password: string;
-  showPassword: boolean;
-}
 
 @Component({
   selector: 'app-root',
@@ -19,49 +16,55 @@ interface IUser {
 export class AppComponent implements OnInit {
 
   reactiveForm!: FormGroup;
-  user: IUser;
+  post: Post;
+  newPost: boolean = false;
+  @Select(AppState.postList)
+  postList$: Observable<Array<Post>>;
 
-  constructor() {
-    this.user = {} as IUser;
+  constructor(private store: Store) {
+    this.post = {
+      id: null,
+      title: null,
+      body: null,
+      userId: null
+    } as Post;
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new GetPosts())
     this.reactiveForm = new FormGroup({
-      name: new FormControl(this.user.name, [
+      body: new FormControl(this.post.body, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
       ]),
-      nickname: new FormControl(this.user.nickname, [
+      title: new FormControl(this.post.title, [
         Validators.maxLength(10),
       ]),
-      email: new FormControl(this.user.email, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(250),
-        emailValidator(),
+      id: new FormControl(this.post.id, [
+        // emailValidator(),
       ]),
-      password: new FormControl(this.user.password, [
+      userId: new FormControl(this.post.userId, [
         Validators.required,
         Validators.minLength(15),
       ]),
     });
   }
 
-  get name() {
-    return this.reactiveForm.get('name')!;
+  get title() {
+    return this.reactiveForm.get('title')!;
   }
 
-  get nickname() {
-    return this.reactiveForm.get('nickname')!;
+  get body() {
+    return this.reactiveForm.get('body')!;
   }
 
-  get email() {
-    return this.reactiveForm.get('email')!;
+  get userId() {
+    return this.reactiveForm.get('userId')!;
   }
 
-  get password() {
-    return this.reactiveForm.get('password')!;
+  get id() {
+    return this.reactiveForm.get('id')!;
   }
 
   public validate(): void {
@@ -71,13 +74,27 @@ export class AppComponent implements OnInit {
       }
       return;
     }
+    this.post = this.reactiveForm.value;
+    this.store.dispatch(new PostNewPost(this.post))
+  }
 
-    this.user = this.reactiveForm.value;
+  deletePost(id: number) {
+    this.store.dispatch(new DeletePost(id)).toPromise()
+      .then((result) => {
+        this.store.dispatch(new GetPosts());
+      })
+  }
 
-    console.info('Name:', this.user.name);
-    console.info('Nickname:', this.user.nickname);
-    console.info('Email:', this.user.email);
-    console.info('Password:', this.user.password);
+  addNewPost() {
+    this.newPost = true;
+  }
+
+  showNewPost() {
+    return !!this.newPost;
+  }
+
+  updatePost(post: Post) {
+    this.store.dispatch(new SelectPost(post));
   }
 
 }

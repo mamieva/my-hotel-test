@@ -9,6 +9,8 @@ import { EmailValidatorDirective } from './email-validator.directive';
 import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { AppState } from './store/app.state';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,10 +21,11 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    NgxsModule.forRoot([], {
+    HttpClientModule,
+    NgxsModule.forRoot([AppState], {
       developmentMode: !environment.production
     }),
-    NgxsModule.forRoot([]), NgxsReduxDevtoolsPluginModule.forRoot()
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
   ],
   providers: [
   ],

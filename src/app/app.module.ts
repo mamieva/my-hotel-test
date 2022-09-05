@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { AppState } from './store/app.state';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastNoAnimationModule, ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
       developmentMode: !environment.production
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
+    ToastrModule.forRoot(),
+    ToastNoAnimationModule.forRoot()
   ],
   providers: [
   ],

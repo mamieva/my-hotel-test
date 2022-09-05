@@ -2,9 +2,11 @@
   <h1>Creating New Posts</h1>
   <div class="card d-flex justify-content-center">
     <div class="card-body">
-      <h3>List of Posts</h3>
-      <button class="btn btn-success" (click)="addNewPost()">New Post</button>
-      <div *ngIf="!!showNewPost()">
+      <div class="d-flex justify-content-between mb-3">
+        <h3>List of Posts</h3>
+        <button class="btn btn-success" (click)="addNewPost()">New Post</button>
+      </div>
+      <div class="mb-4" *ngIf="!!showNewPost()">
         <div class="row justify-content-center my-5">
           <div class="col-4">
             <form [formGroup]="reactiveForm" #form="ngForm">
@@ -16,7 +18,7 @@
                     [class.is-invalid]="title.invalid && (title.dirty || title.touched)">
                   <div *ngIf="title.invalid && (title.dirty || title.touched)" class="invalid-feedback">
                     <div *ngIf="title.errors?.['maxlength']">
-                      This field must have at most 10 characters.
+                      This field must have at most 30 characters.
                     </div>
                   </div>
                 </div>
@@ -24,8 +26,9 @@
               <div class="row">
                 <div class="col mb-2">
                   <label for="body" class="form-label">Body:</label>
-                  <input type="text" id="body" name="body" formControlName="body" placeholder="Insert a little description" required
-                    minlength="1" maxlength="250" class="form-control form-control-sm"
+                  <input type="text" id="body" name="body" formControlName="body"
+                    placeholder="Insert a little description" required minlength="1" maxlength="250"
+                    class="form-control form-control-sm"
                     [class.is-invalid]="body.invalid && (body.dirty || body.touched)">
                   <div *ngIf="body.invalid && (body.dirty || body.touched)" class="invalid-feedback">
                     <div *ngIf="body.errors?.['required']">
@@ -43,39 +46,27 @@
               <div class="row" *ngIf="!!id.value">
                 <div class="col mb-2">
                   <label for="id" class="form-label">Id:</label>
-                  <input readonly type="number" id="id" name="id" formControlName="id" placeholder="your-name@provider.com"
-                    required minlength="1" maxlength="250" class="form-control form-control-sm"
-                    [class.is-invalid]="id.invalid && (id.dirty || id.touched)">
-                  <div *ngIf="id.invalid && (id.dirty || id.touched)" class="invalid-feedback">
-                    <div *ngIf="id.errors?.['required']">
-                      This field is required.
-                    </div>
-                    <div *ngIf="id.errors?.['minlength']">
-                      This field must have at least 1 character.
-                    </div>
-                    <div *ngIf="id.errors?.['maxlength']">
-                      This field must have at most 250 characters.
-                    </div>
-                    <div
-                      *ngIf="!id.errors?.['required'] && !id.errors?.['minlength'] && !id.errors?.['maxlength'] && id.errors?.['emailValidator']">
-                      Invalid email format.
-                    </div>
-                  </div>
+                  <input readonly type="number" id="id" name="id" formControlName="id"
+                    placeholder="your-name@provider.com" required minlength="1" maxlength="250"
+                    class="form-control form-control-sm" [class.is-invalid]="id.invalid && (id.dirty || id.touched)">
                 </div>
               </div>
               <div class="row">
                 <div class="col mb-2">
                   <label for="userId" class="form-label">UserId:</label>
                   <div class="input-group input-group-sm has-validation">
-                    <input type="number" id="userId" name="userId" formControlName="userId" required minlength="15"
-                      class="form-control form-control-sm"
+                    <input type="text" id="userId" name="userId" placeholder="Insert a real email"
+                      formControlName="userId" required minlength="5" class="form-control form-control-sm"
                       [class.is-invalid]="userId.invalid && (userId.dirty || userId.touched)">
                     <div *ngIf="userId.invalid && (userId.dirty || userId.touched)" class="invalid-feedback">
                       <div *ngIf="userId.errors?.['required']">
                         This field is required.
                       </div>
                       <div *ngIf="userId.errors?.['minlength']">
-                        This field must have at least 15 characters.
+                        This field must have at least 5 characters.
+                      </div>
+                      <div *ngIf="userId.errors?.['emailValidator']">
+                        Insert a real email.
                       </div>
                     </div>
                   </div>
@@ -83,7 +74,7 @@
               </div>
               <div class="row">
                 <div class="col mb-2 d-grid">
-                  <button type="button" class="btn btn-sm btn-primary" (click)="validate()">Validate</button>
+                  <button type="button" class="btn btn-sm btn-primary" (click)="validate()">Validate & send</button>
                 </div>
               </div>
             </form>
@@ -106,9 +97,9 @@
             <td>{{post.title}}</td>
             <td>{{post.body}}</td>
             <td>{{post.userId}}</td>
-            <td>
-              <button class="btn btn-outline-primary" (click)="deletePost(post.id)"> Remove </button>
-              <button class="btn btn-outline-primary" (click)="updatePost(post)"> Update </button>
+            <td class="d-flex p-3">
+              <button class="btn btn-outline-danger mx-1" (click)="deletePost(post.id)"> Remove </button>
+              <button class="btn btn-outline-info mx-1" (click)="updatePost(post)"> Update </button>
             </td>
           </tr>
         </tbody>

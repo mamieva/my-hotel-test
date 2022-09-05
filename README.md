@@ -1,18 +1,5 @@
 # Angular Reactive Form Validation
 
-
-Application example built with [Angular](https://angular.io/) 14 and creating and validating a reactive form.
-
-This tutorial was posted on my [blog](https://rodrigo.kamada.com.br/blog/criando-e-validando-um-formulario-reactive-em-uma-aplicacao-angular) in portuguese and on the [DEV Community](https://dev.to/rodrigokamada/creating-and-validating-a-reactive-form-to-an-angular-application-1j0c) in english.
-
-
-
-[![Website](https://shields.braskam.com/v1/shields?name=website&format=rectangle&size=small&radius=5)](https://rodrigo.kamada.com.br)
-[![LinkedIn](https://shields.braskam.com/v1/shields?name=linkedin&format=rectangle&size=small&radius=5)](https://www.linkedin.com/in/rodrigokamada)
-[![Twitter](https://shields.braskam.com/v1/shields?name=twitter&format=rectangle&size=small&radius=5&socialAccount=rodrigokamada)](https://twitter.com/rodrigokamada)
-
-
-
 ## Prerequisites
 
 
@@ -34,42 +21,42 @@ Before you start, you need to install and configure the tools:
 **1.** Let's create the application with the Angular base structure using the `@angular/cli` with the route file and the SCSS style format.
 
 ```powershell
-ng new angular-reactive-form-validation --routing true --style scss
-CREATE angular-reactive-form-validation/README.md (1083 bytes)
-CREATE angular-reactive-form-validation/.editorconfig (274 bytes)
-CREATE angular-reactive-form-validation/.gitignore (548 bytes)
-CREATE angular-reactive-form-validation/angular.json (3363 bytes)
-CREATE angular-reactive-form-validation/package.json (1095 bytes)
-CREATE angular-reactive-form-validation/tsconfig.json (863 bytes)
-CREATE angular-reactive-form-validation/.browserslistrc (600 bytes)
-CREATE angular-reactive-form-validation/karma.conf.js (1449 bytes)
-CREATE angular-reactive-form-validation/tsconfig.app.json (287 bytes)
-CREATE angular-reactive-form-validation/tsconfig.spec.json (333 bytes)
-CREATE angular-reactive-form-validation/.vscode/extensions.json (130 bytes)
-CREATE angular-reactive-form-validation/.vscode/launch.json (474 bytes)
-CREATE angular-reactive-form-validation/.vscode/tasks.json (938 bytes)
-CREATE angular-reactive-form-validation/src/favicon.ico (948 bytes)
-CREATE angular-reactive-form-validation/src/index.html (315 bytes)
-CREATE angular-reactive-form-validation/src/main.ts (372 bytes)
-CREATE angular-reactive-form-validation/src/polyfills.ts (2338 bytes)
-CREATE angular-reactive-form-validation/src/styles.scss (80 bytes)
-CREATE angular-reactive-form-validation/src/test.ts (745 bytes)
-CREATE angular-reactive-form-validation/src/assets/.gitkeep (0 bytes)
-CREATE angular-reactive-form-validation/src/environments/environment.prod.ts (51 bytes)
-CREATE angular-reactive-form-validation/src/environments/environment.ts (658 bytes)
-CREATE angular-reactive-form-validation/src/app/app-routing.module.ts (245 bytes)
-CREATE angular-reactive-form-validation/src/app/app.module.ts (393 bytes)
-CREATE angular-reactive-form-validation/src/app/app.component.scss (0 bytes)
-CREATE angular-reactive-form-validation/src/app/app.component.html (23364 bytes)
-CREATE angular-reactive-form-validation/src/app/app.component.spec.ts (1151 bytes)
-CREATE angular-reactive-form-validation/src/app/app.component.ts (237 bytes)
+ng new my-hotel-test --routing true --style scss
+CREATE my-hotel-test/README.md (1083 bytes)
+CREATE my-hotel-test/.editorconfig (274 bytes)
+CREATE my-hotel-test/.gitignore (548 bytes)
+CREATE my-hotel-test/angular.json (3363 bytes)
+CREATE my-hotel-test/package.json (1095 bytes)
+CREATE my-hotel-test/tsconfig.json (863 bytes)
+CREATE my-hotel-test/.browserslistrc (600 bytes)
+CREATE my-hotel-test/karma.conf.js (1449 bytes)
+CREATE my-hotel-test/tsconfig.app.json (287 bytes)
+CREATE my-hotel-test/tsconfig.spec.json (333 bytes)
+CREATE my-hotel-test/.vscode/extensions.json (130 bytes)
+CREATE my-hotel-test/.vscode/launch.json (474 bytes)
+CREATE my-hotel-test/.vscode/tasks.json (938 bytes)
+CREATE my-hotel-test/src/favicon.ico (948 bytes)
+CREATE my-hotel-test/src/index.html (315 bytes)
+CREATE my-hotel-test/src/main.ts (372 bytes)
+CREATE my-hotel-test/src/polyfills.ts (2338 bytes)
+CREATE my-hotel-test/src/styles.scss (80 bytes)
+CREATE my-hotel-test/src/test.ts (745 bytes)
+CREATE my-hotel-test/src/assets/.gitkeep (0 bytes)
+CREATE my-hotel-test/src/environments/environment.prod.ts (51 bytes)
+CREATE my-hotel-test/src/environments/environment.ts (658 bytes)
+CREATE my-hotel-test/src/app/app-routing.module.ts (245 bytes)
+CREATE my-hotel-test/src/app/app.module.ts (393 bytes)
+CREATE my-hotel-test/src/app/app.component.scss (0 bytes)
+CREATE my-hotel-test/src/app/app.component.html (23364 bytes)
+CREATE my-hotel-test/src/app/app.component.spec.ts (1151 bytes)
+CREATE my-hotel-test/src/app/app.component.ts (237 bytes)
 ✔ Packages installed successfully.
     Successfully initialized git.
 ```
 
 **2.** Install and configure the Bootstrap CSS framework. Do steps 2 and 3 of the post *[Adding the Bootstrap CSS framework to an Angular application](https://github.com/rodrigokamada/angular-bootstrap)*.
 
-**3.** Let's create a custom validator for the email field. Create the `EmailValidatorDirective` directive.
+**2.** Let's create a custom validator for the email field. Create the `EmailValidatorDirective` directive.
 
 ```powershell
 ng generate directive email-validator --skip-tests=true
@@ -77,7 +64,7 @@ CREATE src/app/email-validator.directive.ts (157 bytes)
 UPDATE src/app/app.module.ts (592 bytes)
 ```
 
-**4.** Change the `src/app/email-validator.directive.ts` file. Create the `emailValidator` function and the `EmailValidatorDirective` class as below.
+**3.** Change the `src/app/email-validator.directive.ts` file. Create the `emailValidator` function and the `EmailValidatorDirective` class as below.
 
 ```typescript
 import { Directive } from '@angular/core';
@@ -123,7 +110,7 @@ export class EmailValidatorDirective implements Validator {
 }
 ```
 
-**5.** Change the `src/app/app.component.ts` file. Import the `NgForm` service, create the `IUser` interface and create the `validate` function as below.
+**4.** Change the `src/app/app.component.ts` file. Import the `NgForm` service, create the `IUser` interface and create the `validate` function as below.
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -211,7 +198,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-**6.** Change the `src/app/app.component.html` file. Add the form as below.
+**5.** Change the `src/app/app.component.html` file. Add the form as below.
 
 ```html
 <div class="container-fluid py-3">
@@ -298,7 +285,7 @@ export class AppComponent implements OnInit {
 </div>
 ```
 
-**7.** Change the `src/app/app.module.ts` file. Import the `ReactiveFormsModule` module and the `EmailValidatorDirective` directive as below.
+**6.** Change the `src/app/app.module.ts` file. Import the `ReactiveFormsModule` module and the `EmailValidatorDirective` directive as below.
 
 ```typescript
 import { ReactiveFormsModule } from '@angular/forms';
@@ -316,12 +303,12 @@ imports: [
 ],
 ```
 
-**8.** Run the application with the command below.
+**7.** Run the application with the command below.
 
 ```powershell
 npm start
 
-> angular-reactive-form-validation@1.0.0 start
+> my-hotel-test@1.0.0 start
 > ng serve
 
 ✔ Browser application bundle generation complete.
@@ -344,9 +331,7 @@ Build at: 2022-03-21T00:40:49.519Z - Hash: af669f909d9510f8 - Time: 3254ms
 ✔ Compiled successfully.
 ```
 
-**9.** Ready! Access the URL `http://localhost:4200/` and check if the application is working. See the application working on [GitHub Pages](https://rodrigokamada.github.io/angular-reactive-form-validation/) and [Stackblitz](https://stackblitz.com/edit/angular14-reactive-form-validation).
-
-![Angular Reactive Form Validation](https://res.cloudinary.com/rodrigokamada/image/upload/v1647862829/Blog/angular-reactive-form-validation/angular-reactive-form-validation.png)
+**8.** Ready! Access the URL `http://localhost:4200/` and check if the application is working.
 
 
 
@@ -355,7 +340,7 @@ Build at: 2022-03-21T00:40:49.519Z - Hash: af669f909d9510f8 - Time: 3254ms
 **1.** Clone the repository.
 
 ```powershell
-git clone git@github.com:rodrigokamada/angular-reactive-form-validation.git
+git clone git@github.com:mamieva/my-hotel-test.git
 ```
 
 **2.** Install the dependencies.

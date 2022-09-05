@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
 import { emailValidator } from './email-validator.directive';
-import { DeletePost, GetPosts, PostNewPost, SelectPost } from './store/app.actions';
+import { DeletePost, GetPosts, PostNewPost, PutPost, SelectPost } from './store/app.actions';
 import { AppState, Post } from './store/app.state';
 
 
@@ -21,7 +22,10 @@ export class AppComponent implements OnInit {
   @Select(AppState.postList)
   postList$: Observable<Array<Post>>;
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private toastr: ToastrService
+  ) {
     this.post = {
       id: null,
       title: null,
@@ -33,20 +37,21 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetPosts())
     this.reactiveForm = new FormGroup({
+      title: new FormControl(this.post.title, [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
       body: new FormControl(this.post.body, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
       ]),
-      title: new FormControl(this.post.title, [
-        Validators.maxLength(10),
-      ]),
       id: new FormControl(this.post.id, [
-        // emailValidator(),
       ]),
       userId: new FormControl(this.post.userId, [
         Validators.required,
-        Validators.minLength(15),
+        Validators.minLength(5),
+        emailValidator(),
       ]),
     });
   }
@@ -75,7 +80,11 @@ export class AppComponent implements OnInit {
       return;
     }
     this.post = this.reactiveForm.value;
-    this.store.dispatch(new PostNewPost(this.post))
+    const action = !this.post.id ? new PostNewPost(this.post) : new PutPost(this.post.id, this.post);
+    this.store.dispatch(action).toPromise()
+      .then(result => {
+        this.toastr.success('Action completed successfully');
+      });
   }
 
   deletePost(id: number) {
@@ -87,6 +96,7 @@ export class AppComponent implements OnInit {
 
   addNewPost() {
     this.newPost = true;
+    this.reactiveForm.reset();
   }
 
   showNewPost() {
@@ -95,6 +105,8 @@ export class AppComponent implements OnInit {
 
   updatePost(post: Post) {
     this.store.dispatch(new SelectPost(post));
+    this.reactiveForm.setValue(post);
+    this.newPost = true;
   }
 
 }

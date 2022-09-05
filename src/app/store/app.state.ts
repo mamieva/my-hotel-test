@@ -76,7 +76,6 @@ export class AppState {
   @Action(DeletePost)
   public deletePost({ getState, patchState, dispatch }: StateContext<AppStateModel>, {id}: DeletePost) {
     return new Promise<void>((resolve, reject) => {
-      debugger
       this.postsService.deletePost(id).subscribe((post) => {
         resolve(post);
       }, error => reject(error))

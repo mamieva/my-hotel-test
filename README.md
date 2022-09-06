@@ -1,4 +1,4 @@
-# Angular Reactive Form Validation
+# MyHotel Test
 
 ## Prerequisites
 
